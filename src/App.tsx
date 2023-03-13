@@ -1,25 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useCallback, useEffect, useState } from "react";
+import "./App.css";
+import Header from "./components/Header";
+import CoinTable from "./components/CoinTable/CoinTable";
+import { request, Request, useResource } from "react-request-hook";
+import { IDataProps } from "./types";
+import { Container } from "@mui/material";
+import SearchSidebar from "./components/SearchSidebar";
 
 function App() {
+  const [data, getData] = useResource(() =>
+    request<IDataProps>({
+      url: `/data/top/mktcapfull?limit=10&tsym=USD`,
+      method: "get",
+    })
+  );
+
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  const handleSidebar = useCallback(
+    (value: boolean): void => {
+      setSidebarOpen(value);
+    },
+    [setSidebarOpen]
+  );
+
+  useEffect(() => {
+    try {
+      getData();
+    } catch {
+      alert("Error");
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container maxWidth="xl">
+      <Header handleSidebar={handleSidebar} />
+      {data?.data ? (
+        <CoinTable data={data.data} isLoading={data.isLoading} />
+      ) : null}
+      <SearchSidebar sidebar={isSidebarOpen} handleSidebar={handleSidebar} />
+    </Container>
   );
 }
 

@@ -3,17 +3,25 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import axios from "axios";
+import {RequestProvider} from "react-request-hook";
+import config from "./config.json"
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const axiosInstance = axios.create({
+  headers: {
+    authorization: `Apikey ${config.apiToken}`
+  },
+  baseURL: `${config.apiUrl}`
+})
+
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <RequestProvider value={axiosInstance}>
+    <App/>
+  </RequestProvider>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
