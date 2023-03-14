@@ -5,7 +5,7 @@ import CoinTable from "./components/CoinTable/CoinTable";
 import { request, useResource } from "react-request-hook";
 import { IDataProps, IPagination } from "./types";
 import { Container } from "@mui/material";
-import SearchSidebar from "./components/SearchSidebar";
+import Sidebar from "./components/Sidebar/Sidebar";
 
 const App: React.FC = () => {
   const [data, getData] = useResource(() =>
@@ -68,7 +68,7 @@ const App: React.FC = () => {
           onPagination={onPagination}
         />
       ) : null}
-      <SearchSidebar sidebar={isSidebarOpen} handleSidebar={handleSidebar} />
+      <Sidebar sidebar={isSidebarOpen} handleSidebar={handleSidebar} />
     </Container>
   );
 };

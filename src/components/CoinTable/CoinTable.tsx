@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import {
   Box,
   Paper,
@@ -10,7 +10,7 @@ import {
   TableRow,
 } from "@mui/material";
 import TableLine from "./components/TableLine";
-import { ICoinTableData, ICoinTableProps, IPagination } from "../../types";
+import { ICoinTableData, ICoinTableProps } from "../../types";
 import FormPagination from "./components/TableFooter/FormPagination";
 import SelectPerPage from "./components/TableFooter/SelectPerPage";
 
@@ -19,20 +19,48 @@ const CoinTable: React.FC<ICoinTableProps> = ({
   pagination,
   onPagination,
 }) => {
-  const tableRows = data?.Data.map((item: ICoinTableData) => (
-    <TableLine
-      key={item.CoinInfo.Id}
-      name={item.CoinInfo.Name}
-      fullName={item.CoinInfo.FullName}
-      img={item.CoinInfo.ImageUrl}
-      price={item.RAW.USD.PRICE}
-      high24={item.RAW.USD.HIGH24HOUR}
-      low24={item.RAW.USD.LOW24HOUR}
-      volume24={item.RAW.USD.VOLUME24HOURTO}
-      change24={item.RAW.USD.CHANGE24HOUR}
-    />
-  ));
+  const tableRows = data?.Data.map((item: ICoinTableData) => {
+    const high24 =
+      item.RAW.USD?.HIGH24HOUR ||
+      item.RAW.EUR?.HIGH24HOUR ||
+      item.RAW.GBP?.HIGH24HOUR ||
+      0;
 
+    const low24 =
+      item.RAW.USD?.LOW24HOUR ||
+      item.RAW.EUR?.LOW24HOUR ||
+      item.RAW.GBP?.LOW24HOUR ||
+      0;
+
+    const volume24 =
+      item.RAW.USD?.VOLUME24HOURTO ||
+      item.RAW.EUR?.VOLUME24HOURTO ||
+      item.RAW.GBP?.VOLUME24HOURTO ||
+      0;
+
+    const change24 =
+      item.RAW.USD?.CHANGE24HOUR ||
+      item.RAW.EUR?.CHANGE24HOUR ||
+      item.RAW.GBP?.CHANGE24HOUR ||
+      0;
+
+    const price =
+      item.RAW.USD?.PRICE || item.RAW.EUR?.PRICE || item.RAW.GBP?.PRICE || 0;
+
+    return (
+      <TableLine
+        key={item.CoinInfo.Id}
+        name={item.CoinInfo.Name}
+        fullName={item.CoinInfo.FullName}
+        img={item.CoinInfo.ImageUrl}
+        price={price}
+        high24={high24}
+        low24={low24}
+        volume24={volume24}
+        change24={change24}
+      />
+    );
+  });
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650, mb: "20px" }} aria-label="simple table">
@@ -55,5 +83,4 @@ const CoinTable: React.FC<ICoinTableProps> = ({
     </TableContainer>
   );
 };
-
 export default CoinTable;

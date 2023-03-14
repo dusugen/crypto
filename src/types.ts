@@ -5,19 +5,23 @@ export type TCoinInfo = {
   ImageUrl: string;
 };
 
-export type TRaw = {
-  USD: {
-    PRICE: number;
-    HIGH24HOUR: number;
-    LOW24HOUR: number;
-    VOLUME24HOURTO: number;
-    CHANGE24HOUR: number;
-  };
+export type TCurrencyData = {
+  PRICE: number;
+  HIGH24HOUR: number;
+  LOW24HOUR: number;
+  VOLUME24HOURTO: number;
+  CHANGE24HOUR: number;
+};
+
+export type TCurrency = {
+  USD?: TCurrencyData;
+  EUR?: TCurrencyData;
+  GBP?: TCurrencyData;
 };
 
 export interface ICoinTableData {
   CoinInfo: TCoinInfo;
-  RAW: TRaw;
+  RAW: TCurrency;
 }
 
 export type TMetaData = {
