@@ -4,17 +4,17 @@ import { IPagination } from "../../../../types";
 
 interface IPaginationProps {
   pagination: IPagination;
-  onPagination: (value: Partial<IPagination>) => void;
+  onPagination: (value: IPagination) => void;
 }
 
 const FormPagination: React.FC<IPaginationProps> = ({
   pagination,
   onPagination,
 }) => {
-  console.log(pagination, "pag");
+  console.log(pagination, "pagination");
   const pageCount = useMemo<number>(
-    () => Math.floor(pagination.count / pagination.per_page),
-    [pagination.count, pagination.per_page]
+    () => Math.ceil(pagination.count / pagination.limit),
+    [pagination.count, pagination.limit]
   );
   return (
     <Stack spacing={2} sx={{ flexGrow: 1 }}>
@@ -23,7 +23,7 @@ const FormPagination: React.FC<IPaginationProps> = ({
         color="primary"
         size="large"
         page={pagination.page}
-        onChange={(event, page) => onPagination({ page: page })}
+        onChange={(event, page) => onPagination({ ...pagination, page: page })}
       />
     </Stack>
   );

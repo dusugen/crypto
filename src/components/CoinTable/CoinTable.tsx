@@ -12,19 +12,13 @@ import {
 import TableLine from "./components/TableLine";
 import { ICoinTableData, ICoinTableProps, IPagination } from "../../types";
 import FormPagination from "./components/TableFooter/FormPagination";
+import SelectPerPage from "./components/TableFooter/SelectPerPage";
 
-const CoinTable: React.FC<ICoinTableProps> = ({ data }) => {
-  const [pagination, setPagination] = useState<IPagination>({
-    page: 1,
-    per_page: 10,
-    count: data.MetaData.Count,
-  });
-  console.log(data, "META");
-
-  const onPagination = useCallback((value: Partial<IPagination>) => {
-    setPagination({ ...pagination, ...value });
-  }, []);
-
+const CoinTable: React.FC<ICoinTableProps> = ({
+  data,
+  pagination,
+  onPagination,
+}) => {
   const tableRows = data?.Data.map((item: ICoinTableData) => (
     <TableLine
       key={item.CoinInfo.Id}
@@ -54,9 +48,9 @@ const CoinTable: React.FC<ICoinTableProps> = ({ data }) => {
         </TableHead>
         <TableBody>{tableRows}</TableBody>
       </Table>
-      <Box sx={{ display: "flex" }}>
+      <Box sx={{ display: "flex", mb: "10px" }}>
         <FormPagination pagination={pagination} onPagination={onPagination} />
-        {/*<SelectPerPage per_page={pagination.per_page}/>*/}
+        <SelectPerPage limit={pagination.limit} onPagination={onPagination} />
       </Box>
     </TableContainer>
   );

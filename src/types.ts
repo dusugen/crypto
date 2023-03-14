@@ -33,10 +33,12 @@ export interface IDataProps {
 export interface ICoinTableProps {
   data: IDataProps;
   isLoading: boolean;
+  pagination: IPagination;
+  onPagination: (value: Partial<IPagination>) => void;
 }
 
 export interface IPagination {
   page: number;
-  per_page: number;
+  limit: number;
   count: number;
 }

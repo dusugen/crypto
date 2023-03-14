@@ -1,17 +1,27 @@
-import React from 'react';
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import React from "react";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { IPagination } from "../../../../types";
 
-const SelectPerPage = () => {
+interface ISelectProps {
+  limit: number;
+  onPagination: (value: Partial<IPagination>) => void;
+}
+
+const SelectPerPage: React.FC<ISelectProps> = ({
+  limit: limit,
+  onPagination,
+}) => {
   return (
-    <FormControl sx={{m: 1, minWidth: 120}} size="small">
-      <InputLabel id="demo-select-small">On page</InputLabel>
+    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+      <InputLabel id="pageLimit">On page</InputLabel>
       <Select
-        labelId="per_page"
-        id="per_page"
-        value={10}
+        labelId="limit"
+        id="limit"
+        value={limit}
         label="On page"
-        onChange={() => {
-        }}
+        onChange={(event) =>
+          onPagination({ limit: Number(event.target.value) })
+        }
       >
         <MenuItem value={10}>10</MenuItem>
         <MenuItem value={25}>25</MenuItem>
