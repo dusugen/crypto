@@ -1,5 +1,5 @@
 {
-  "apiUrl": "https://min-api.cryptocompare.com",
+  "apiUrl": "https://min-api.cryptocompare.com/data",
   "apiToken": "3401e76ca8d412f5e609175e0bf0412a4b965f687204064944a0b7250799064d",
   "imgUrl" : "https://www.cryptocompare.com"
 }

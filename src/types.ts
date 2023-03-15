@@ -21,7 +21,7 @@ export type TCurrency = {
 
 export interface ICoinTableData {
   CoinInfo: TCoinInfo;
-  RAW: TCurrency;
+  DISPLAY: TCurrency | undefined;
 }
 
 export type TMetaData = {
@@ -46,3 +46,8 @@ export interface IPagination {
   limit: number;
   count: number;
 }
+
+export type TFilters = {
+  currency: string;
+  rating: "asc" | "desc";
+};

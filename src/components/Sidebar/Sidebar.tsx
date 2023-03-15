@@ -11,78 +11,72 @@ import {
   MenuItem,
   RadioGroup,
   Select,
-  TextField,
   Typography,
 } from "@mui/material";
+import { TFilters } from "../../types";
 
 interface ISidebarProps {
+  filters: TFilters;
+  onFiltering: (value: Partial<TFilters>) => void;
   sidebar: boolean;
   handleSidebar: (value: boolean) => void;
 }
 
-const Sidebar: React.FC<ISidebarProps> = ({ sidebar, handleSidebar }) => {
-  return (
-    <Drawer
-      anchor="right"
-      open={sidebar}
-      onClose={() => {
-        handleSidebar(false);
-      }}
-    >
-      <Typography variant="h4" textAlign="center">
-        Filters
-      </Typography>
-      <List sx={{ width: "400px" }}>
-        <ListItem>
-          <TextField
-            fullWidth
-            label="Name"
-            variant="outlined"
-            sx={{ mb: "10px" }}
-          />
-        </ListItem>
-        <ListItem>
-          <FormControl sx={{ m: 1, minWidth: 120, margin: 0 }}>
-            <InputLabel id="currency">Currency</InputLabel>
-            <Select
-              labelId="currency"
-              id="currency"
-              value=""
-              label="Currency"
-              onChange={(event) => console.log(event.target.value)}
-            >
-              <MenuItem value="USD">USD</MenuItem>
-              <MenuItem value="EUR">EUR</MenuItem>
-              <MenuItem value="GBP">GBP</MenuItem>
-            </Select>
-          </FormControl>
-        </ListItem>
-        <ListItem>
-          <FormControl>
-            <FormLabel id="demo-row-radio-buttons-group-label">
-              Population
-            </FormLabel>
-            <RadioGroup
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              value={"Ascending"}
-              onChange={() => {}}
-            >
-              <FormControlLabel
-                value="Ascending"
-                label="Ascending"
-                control={<Radio />}
-              />
-              <FormControlLabel
-                value="Descending"
-                label="Descending"
-                control={<Radio />}
-              />
-            </RadioGroup>
-          </FormControl>
-        </ListItem>
-      </List>
-    </Drawer>
-  );
-};
+const Sidebar: React.FC<ISidebarProps> = React.memo(
+  ({ sidebar, handleSidebar, filters, onFiltering }) => {
+    return (
+      <Drawer
+        anchor="right"
+        open={sidebar}
+        onClose={() => {
+          handleSidebar(false);
+        }}
+      >
+        <Typography variant="h4" textAlign="center">
+          Options
+        </Typography>
+        <List sx={{ width: "400px" }}>
+          <ListItem>
+            <FormControl sx={{ m: 1, minWidth: 120, margin: 0 }}>
+              <InputLabel id="currency">Currency</InputLabel>
+              <Select
+                labelId="currency"
+                id="currency"
+                value={filters.currency}
+                label="Currency"
+                onChange={(event) =>
+                  onFiltering({ currency: event.target.value })
+                }
+              >
+                <MenuItem value="USD">USD</MenuItem>
+                <MenuItem value="EUR">EUR</MenuItem>
+                <MenuItem value="GBP">GBP</MenuItem>
+              </Select>
+            </FormControl>
+          </ListItem>
+          <ListItem>
+            <FormControl>
+              <FormLabel id="coinRating">Rating</FormLabel>
+              <RadioGroup name="row-radio-buttons-group" value={filters.rating}>
+                <FormControlLabel
+                  value="desc"
+                  label="Descending"
+                  control={<Radio />}
+                  onClick={() => onFiltering({ rating: "desc" })}
+                />
+                <FormControlLabel
+                  value="asc"
+                  label="Ascending"
+                  control={<Radio />}
+                  onClick={() => onFiltering({ rating: "asc" })}
+                />
+              </RadioGroup>
+            </FormControl>
+          </ListItem>
+        </List>
+      </Drawer>
+    );
+  }
+);
+
 export default Sidebar;
