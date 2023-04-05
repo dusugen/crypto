@@ -1,12 +1,19 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./App.css";
-import Header from "./components/Header";
+import Header from "./components/Header/Header";
 import CoinTable from "./components/CoinTable/CoinTable";
 import { request, useResource } from "react-request-hook";
 import { IDataProps, IPagination, TFilters } from "./types";
 import { Container } from "@mui/material";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Loader from "./components/shared/Loader/Loader";
+import config from "../src/config.json";
+import { Route, Routes } from "react-router-dom";
+import CoinPage from "./components/CoinTable/components/CoinPage/CoinPage";
+
+const webSocket = new WebSocket(
+  `wss://streamer.cryptocompare.com/v2&api_key=${config.apiToken}`
+);
 
 const App: React.FC = React.memo(() => {
   const [data, getData] = useResource(() =>
@@ -79,7 +86,11 @@ const App: React.FC = React.memo(() => {
   );
   return (
     <Container maxWidth="xl">
-      <Header sidebar={isSidebarOpen} handleSidebar={handleSidebar} />
+      <Header
+        sidebar={isSidebarOpen}
+        handleSidebar={handleSidebar}
+        resetPagination={onPagination}
+      />
       <Sidebar
         sidebar={isSidebarOpen}
         handleSidebar={handleSidebar}
@@ -89,12 +100,20 @@ const App: React.FC = React.memo(() => {
       {data.isLoading ? (
         <Loader />
       ) : data?.data ? (
-        <CoinTable
-          data={data.data}
-          isLoading={data.isLoading}
-          pagination={pagination}
-          onPagination={onPagination}
-        />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <CoinTable
+                data={data.data}
+                isLoading={data.isLoading}
+                pagination={pagination}
+                onPagination={onPagination}
+              />
+            }
+          />
+          <Route path="/:name" element={<CoinPage />} />
+        </Routes>
       ) : null}
     </Container>
   );

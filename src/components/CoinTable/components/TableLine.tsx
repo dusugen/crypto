@@ -1,6 +1,7 @@
 import React from "react";
 import { Avatar, Stack, TableCell, TableRow, Typography } from "@mui/material";
 import config from "../../../config.json";
+import { useNavigate } from "react-router-dom";
 
 interface ITAbleLineProps {
   name: string;
@@ -15,9 +16,17 @@ interface ITAbleLineProps {
 
 const TableLine: React.FC<ITAbleLineProps> = React.memo(
   ({ name, fullName, img, price, high24, low24, volume24, change24 }) => {
+    const navigate = useNavigate();
+    const handleRedirect = () => {
+      navigate(`/${name}`);
+    };
+
     return (
       <TableRow>
-        <TableCell sx={{ display: "flex", alignItems: "center" }}>
+        <TableCell
+          sx={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+          onClick={handleRedirect}
+        >
           <Avatar
             src={`${config.imgUrl}${img}`}
             alt={`${name}`}

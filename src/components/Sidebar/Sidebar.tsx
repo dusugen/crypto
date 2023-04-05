@@ -48,9 +48,9 @@ const Sidebar: React.FC<ISidebarProps> = React.memo(
                   onFiltering({ currency: event.target.value })
                 }
               >
-                <MenuItem value="USD">USD</MenuItem>
-                <MenuItem value="EUR">EUR</MenuItem>
-                <MenuItem value="GBP">GBP</MenuItem>
+                <MenuItem value="USD">USD ($)</MenuItem>
+                <MenuItem value="EUR">EUR (€)</MenuItem>
+                <MenuItem value="GBP">GBP (£)</MenuItem>
               </Select>
             </FormControl>
           </ListItem>

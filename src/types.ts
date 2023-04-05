@@ -19,6 +19,32 @@ export type TCurrency = {
   GBP?: TCurrencyData;
 };
 
+export type TCurrencySingleCoin = {
+  USD: TCurrencySingleCoinValue;
+  EUR: TCurrencySingleCoinValue;
+  GBP: TCurrencySingleCoinValue;
+};
+
+export type TCurrencySingleCoinValue = {
+  IMAGEURL: string;
+  PRICE: string;
+  OPENDAY?: string;
+  OPENHOUR?: string;
+  OPEN24HOUR?: string;
+  HIGHDAY?: string;
+  HIGHHOUR?: string;
+  HIGH24HOUR?: string;
+  LOWDAY?: string;
+  LOWHOUR?: string;
+  LOW24HOUR?: string;
+  VOLUMEDAYTO?: string;
+  VOLUMEHOURTO?: string;
+  VOLUME24HOURTO?: string;
+  CHANGEDAY?: string;
+  CHANGEHOUR?: string;
+  CHANGE24HOUR?: string;
+};
+
 export interface ICoinTableData {
   CoinInfo: TCoinInfo;
   DISPLAY: TCurrency | undefined;
@@ -51,3 +77,8 @@ export type TFilters = {
   currency: string;
   rating: "asc" | "desc";
 };
+export type TDisplay = Record<string, TCurrencySingleCoin>;
+
+export interface ICoinData {
+  DISPLAY: TDisplay;
+}
